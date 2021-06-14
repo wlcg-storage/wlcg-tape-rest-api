@@ -21,5 +21,4 @@ $ ./mvnw spring-boot:run
 
 Point your browser to http://localhost:8080, and you will see the swagger UI.
 
-
-[spring-boot]: ./HELP.md
+[spring-boot]: https://docs.spring.io/spring-boot/docs/2.5.1/reference/html/
