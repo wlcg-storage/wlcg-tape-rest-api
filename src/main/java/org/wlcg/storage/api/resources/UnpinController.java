@@ -10,8 +10,4 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping(path = "/v1/unpin")
 public class UnpinController extends BaseBulkRequestController {
 
-  public UnpinController() {
-    // TODO Auto-generated constructor stub
-  }
-
 }

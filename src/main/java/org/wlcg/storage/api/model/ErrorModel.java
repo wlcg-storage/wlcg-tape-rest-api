@@ -2,7 +2,7 @@ package org.wlcg.storage.api.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(description = "Error object")
+@Schema(description = "Error object: we should align with RFC 7807")
 public class ErrorModel {
 
   private String error;

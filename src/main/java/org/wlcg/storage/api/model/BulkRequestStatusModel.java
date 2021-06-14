@@ -2,18 +2,31 @@ package org.wlcg.storage.api.model;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class BulkRequestStatusModel {
 
+  @Schema(description = "The kind of bulk request (e.g., stage)", required = true)
   String kind;
+
+  @Schema(description = "The bulk request uuid", required = true)
   String uuid;
 
+  @Schema(description = "The bulk request status", required = true)
   RequestStatusType status;
 
+  @Schema(description = "The target count", required = true)
   Integer numTargets;
+
+  @Schema(description = "The number of processed targets", required = true)
   Integer numProcessed;
 
+  @Schema(description = "The request json", required = true)
   BulkRequestModel request;
 
+  @ArraySchema(minItems = 0,
+      schema = @Schema(description = "The list of targers whose processing resulted in a failure"))
   List<FileStatusModel> failures;
 
   public BulkRequestStatusModel() {
