@@ -19,7 +19,7 @@ public class BulkRequestOptionsModel {
   @Schema(
       description = "Delays the clear operation by this amount of seconds. This option has meaning only when used in combination with clearOnSucess or clearOnFailure",
       required = false, defaultValue = "300")
-  int delayClearBySecs = 300;
+  int delayClearBySecs;
 
   public boolean isCancelOnFirstFailure() {
     return cancelOnFirstFailure;

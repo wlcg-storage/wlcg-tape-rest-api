@@ -2,18 +2,22 @@ package org.wlcg.storage.api.model;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class ListResponseModel<T> {
 
-  private String kind;
+  @Schema(description = "The type of bulk-request")
+  private String type;
 
+  @Schema(description = "The list of item to display")
   private List<T> items;
 
-  public String getKind() {
-    return kind;
+  public String getType() {
+    return type;
   }
 
-  public void setKind(String kind) {
-    this.kind = kind;
+  public void setType(String type) {
+    this.type = type;
   }
 
   public List<T> getItems() {

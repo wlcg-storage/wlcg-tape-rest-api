@@ -7,11 +7,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public class BulkRequestStatusModel {
 
-  @Schema(description = "The kind of bulk request (e.g., stage)", required = true)
-  String kind;
+  @Schema(description = "The type of bulk request (e.g., stage)", required = true)
+  String type;
 
-  @Schema(description = "The bulk request uuid", required = true)
-  String uuid;
+  @Schema(description = "The bulk request id", required = true)
+  String id;
 
   @Schema(description = "The bulk request status", required = true)
   RequestStatusType status;
@@ -33,20 +33,20 @@ public class BulkRequestStatusModel {
     // TODO Auto-generated constructor stub
   }
 
-  public String getKind() {
-    return kind;
+  public String getType() {
+    return type;
   }
 
-  public void setKind(String kind) {
-    this.kind = kind;
+  public void setType(String type) {
+    this.type = type;
   }
 
-  public String getUuid() {
-    return uuid;
+  public String getId() {
+    return this.id;
   }
 
-  public void setUuid(String uuid) {
-    this.uuid = uuid;
+  public void setId(String id) {
+    this.id = id;
   }
 
   public Integer getNumTargets() {
