@@ -1,5 +1,6 @@
 package org.wlcg.storage.api.model.fileinfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.wlcg.storage.api.model.BulkRequestStatusModel;
@@ -11,6 +12,7 @@ public class FileInfoBulkRequestStatusModel extends BulkRequestStatusModel {
 	
 	public FileInfoBulkRequestStatusModel() {
 		super();
+		this.fileInformation = new ArrayList<FileInfoModel>();
 	}
 
 

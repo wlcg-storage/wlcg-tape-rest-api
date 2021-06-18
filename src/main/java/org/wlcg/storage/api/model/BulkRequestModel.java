@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Bulk request base object")
 public class BulkRequestModel {
 
-
   @ArraySchema(minItems = 1,
       schema = @Schema(description = "Paths that are targets of this bulk request"))
   private List<String> paths;

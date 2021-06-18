@@ -9,7 +9,7 @@ public class ListResponseModel<T> {
   @Schema(description = "The type of bulk-request")
   private String type;
 
-  @Schema(description = "The list of item to display")
+  @Schema(description = "The list of item to display = URL ?")
   private List<T> items;
 
   public String getType() {
