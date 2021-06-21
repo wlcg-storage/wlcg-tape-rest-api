@@ -24,6 +24,7 @@ public class FileinfoController extends BaseBulkRequestController {
 	@ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FileInfoBulkRequestStatusModel.class)))
   })
+	@Override
 	public FileInfoBulkRequestStatusModel getRequestStatus(@PathVariable String id) {
 	  throw new NotImplementedError();
 	}
