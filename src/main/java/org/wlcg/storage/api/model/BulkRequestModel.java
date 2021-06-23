@@ -1,5 +1,6 @@
 package org.wlcg.storage.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -12,31 +13,11 @@ public class BulkRequestModel {
       schema = @Schema(description = "Paths that are targets of this bulk request"))
   private List<String> paths;
 
-  @Schema(description = "Prefix used to resolve relative paths", required = false)
-  private String prefix;
-
-  @Schema(description = "Request management options", required = false)
-  private BulkRequestOptionsModel options;
 
   public BulkRequestModel() {
+    this.paths = new ArrayList<String>();
   }
-
-  public BulkRequestOptionsModel getOptions() {
-    return options;
-  }
-
-  public void setOptions(BulkRequestOptionsModel options) {
-    this.options = options;
-  }
-
-  public String getPrefix() {
-    return prefix;
-  }
-
-  public void setPrefix(String prefix) {
-    this.prefix = prefix;
-  }
-
+  
   public List<String> getPaths() {
     return paths;
   }

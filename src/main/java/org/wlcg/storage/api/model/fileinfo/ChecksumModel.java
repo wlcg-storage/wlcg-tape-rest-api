@@ -4,6 +4,11 @@ public class ChecksumModel {
 	private String type;
 	private String value;
 	
+	public ChecksumModel(String type, String value){
+	  this.type = type;
+	  this.value = value;
+	}
+	
 	public String getType() {
 		return type;
 	}

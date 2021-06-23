@@ -7,13 +7,10 @@ public class FileStatusModel {
   @Schema(description = "The file path", required = true)
   String path;
 
-  @Schema(description = "The file operation status", required = true)
-  FileOperationStatusType status;
-
   @Schema(
       description = "A description related to the file operation status (e.g., an error message)",
       required = false)
-  String description;
+  String reason;
 
   public String getPath() {
     return path;
@@ -23,20 +20,12 @@ public class FileStatusModel {
     this.path = path;
   }
 
-  public FileOperationStatusType getStatus() {
-    return status;
+  public String getReason() {
+    return reason;
   }
 
-  public void setStatus(FileOperationStatusType status) {
-    this.status = status;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
+  public void setReason(String reason) {
+    this.reason = reason;
   }
 
 }

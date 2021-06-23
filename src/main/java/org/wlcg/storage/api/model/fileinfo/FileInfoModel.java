@@ -1,5 +1,6 @@
 package org.wlcg.storage.api.model.fileinfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileInfoModel {
@@ -9,6 +10,10 @@ public class FileInfoModel {
 	private boolean isOnDisk;
 	private boolean isOnTape;
 	private List<ChecksumModel> checksums;
+	
+	public FileInfoModel() {
+	  this.checksums = new ArrayList<ChecksumModel>();
+	}
 	
 	public String getPath() {
 		return path;
