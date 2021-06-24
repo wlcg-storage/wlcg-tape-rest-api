@@ -1,6 +1,5 @@
 package org.wlcg.storage.api.resources;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +38,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class StageResourceController extends BaseBulkRequestController {
 
   private static class ObjectFixture {
-    public static ListResponseModel<URL> getDefaultListResponseModel() {
-      ListResponseModel<URL> ret  = new ListResponseModel<URL>();
-      try {
-        ret.getItems().add(new URL("https://api/v1/stage/93be38df-435c-4322-801d-b95e77ac5bbc"));
-      } catch (MalformedURLException e) {
-        
-      }
-      return ret;
-    }
+   
     
     public static StageBulkRequestStatusModel getDefautBulkRequestStatus() {
       StageBulkRequestStatusModel ret = new StageBulkRequestStatusModel();
@@ -85,7 +76,7 @@ public class StageResourceController extends BaseBulkRequestController {
       @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ListResponseModel.class))),
   })
   public ListResponseModel<URL> findRequests(@RequestParam(required = false) RequestStatusType[] status) {
-    return ObjectFixture.getDefaultListResponseModel();
+    return BaseBulkRequestController.ObjectFixture.getDefaultListResponseModel("stage");
   }
   
   @PostMapping(value = "/{id}/cancel")

@@ -1,7 +1,7 @@
 package org.wlcg.storage.api.model;
 
 public enum RequestStatusType {
-  QUEUED,
+  /*QUEUED,*/
   STARTED,
   COMPLETED,
   CANCELLED
