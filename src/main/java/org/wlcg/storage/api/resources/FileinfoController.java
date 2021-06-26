@@ -19,6 +19,7 @@ import org.wlcg.storage.api.model.BulkRequestModel;
 import org.wlcg.storage.api.model.CreatedBulkRequestModel;
 import org.wlcg.storage.api.model.ListResponseModel;
 import org.wlcg.storage.api.model.RequestStatusType;
+import org.wlcg.storage.api.model.error.FileInfoSyncLimitError;
 import org.wlcg.storage.api.model.fileinfo.ChecksumModel;
 import org.wlcg.storage.api.model.fileinfo.FileInfoBulkRequestModel;
 import org.wlcg.storage.api.model.fileinfo.FileInfoBulkRequestStatusModel;
@@ -33,7 +34,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @Tag(name = "fileinfo", description = "The **Fileinfo** bulk-request API")
-@RequestMapping(path = "/v1/fileinfo")
+@RequestMapping(path = "/api/v1/fileinfo")
 public class FileinfoController extends BaseBulkRequestController {
   
   /**
@@ -91,7 +92,8 @@ public class FileinfoController extends BaseBulkRequestController {
   @ResponseStatus(code = HttpStatus.CREATED)
   @Operation(summary = "Creates a request")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreatedBulkRequestModel.class)))
+      @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreatedBulkRequestModel.class))),
+      @ApiResponse(responseCode = "403", description = "Too many requests for synchronous FILEINFO", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FileInfoSyncLimitError.class)))
   })
   public CreatedBulkRequestModel createRequest(@RequestBody FileInfoBulkRequestModel request, HttpServletRequest httpRequest ,HttpServletResponse response) {
     return ObjectFixture.getDefaultCreatedRequest(request);

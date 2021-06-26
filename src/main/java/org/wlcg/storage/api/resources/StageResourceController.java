@@ -34,7 +34,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @Tag(name = "stage", description = "The **Stage** bulk-request API")
-@RequestMapping(path = "/v1/stage")
+@RequestMapping(path = "/api/v1/stage")
 public class StageResourceController extends BaseBulkRequestController {
 
   private static class ObjectFixture {
@@ -49,7 +49,7 @@ public class StageResourceController extends BaseBulkRequestController {
       bulkRequest.getMetadata().add(new MetadataModel("activity","random_activity"));
       ret.setRequest(bulkRequest);
       ret.setNumTargets(bulkRequest.getPaths().size());
-      ret.setNumProcessed(1);
+      ret.setNumProcessed(2);
       List<String> pathsStaged = new ArrayList<String>();
       pathsStaged.add(bulkRequest.getPaths().get(0));
       ret.setPathsStaged(pathsStaged);
@@ -87,6 +87,7 @@ public class StageResourceController extends BaseBulkRequestController {
   }
   
   @GetMapping(value = "/{id}")
+  @ResponseStatus(code = HttpStatus.CREATED)
   @Operation(summary = "Returns the status of a request")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StageBulkRequestStatusModel.class)))

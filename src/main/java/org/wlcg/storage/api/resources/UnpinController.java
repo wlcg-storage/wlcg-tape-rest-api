@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @Tag(name = "unpin", description = "The **Unpin** bulk-request API")
-@RequestMapping(path = "/v1/unpin")
+@RequestMapping(path = "/api/v1/unpin")
 public class UnpinController extends BaseBulkRequestController {
   
   private static class ObjectFixture {
