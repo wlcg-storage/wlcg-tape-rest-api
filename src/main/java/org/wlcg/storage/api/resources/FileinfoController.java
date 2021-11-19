@@ -15,12 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.wlcg.storage.api.model.BulkRequestModel;
-import org.wlcg.storage.api.model.CreatedBulkRequestModel;
 import org.wlcg.storage.api.model.ListResponseModel;
 import org.wlcg.storage.api.model.RequestStatusType;
 import org.wlcg.storage.api.model.error.FileInfoSyncLimitError;
 import org.wlcg.storage.api.model.fileinfo.ChecksumModel;
+import org.wlcg.storage.api.model.fileinfo.CreatedFileinfoBulkRequestModel;
 import org.wlcg.storage.api.model.fileinfo.FileInfoBulkRequestModel;
 import org.wlcg.storage.api.model.fileinfo.FileInfoBulkRequestStatusModel;
 import org.wlcg.storage.api.model.fileinfo.FileInfoModel;
@@ -42,10 +41,9 @@ public class FileinfoController extends BaseBulkRequestController {
    */
   private static class ObjectFixture {
     
-    public static CreatedBulkRequestModel getDefaultCreatedRequest(BulkRequestModel request) {
-      CreatedBulkRequestModel ret = new CreatedBulkRequestModel("93be38df-435c-4322-801d-b95e77ac5bbc", request);
-      ret.setAccessURL("/api/v1/fileinfo/" + ret.getId());
-      ret.setNumTargets(request.getPaths().size());
+    public static CreatedFileinfoBulkRequestModel getDefaultCreatedRequest(FileInfoBulkRequestModel request) {
+      CreatedFileinfoBulkRequestModel ret = new CreatedFileinfoBulkRequestModel("93be38df-435c-4322-801d-b95e77ac5bbc", request);
+      ret.setAccessURL("https://tape-rest-api.cern.ch/api/v1/fileinfo/" + ret.getId());
       return ret;
     }
     
@@ -58,7 +56,6 @@ public class FileinfoController extends BaseBulkRequestController {
       bulkRequest.getPaths().add(path2);
       ret.setId("93be38df-435c-4322-801d-b95e77ac5bbc");
       ret.setRequest(bulkRequest);
-      ret.setNumProcessed(2);
       List<FileInfoModel> fileInfos = ret.getFileInformation();
       FileInfoModel file1 = new FileInfoModel();
       file1.setPath(path1);
@@ -92,10 +89,10 @@ public class FileinfoController extends BaseBulkRequestController {
   @ResponseStatus(code = HttpStatus.CREATED)
   @Operation(summary = "Creates a request")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreatedBulkRequestModel.class))),
+      @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreatedFileinfoBulkRequestModel.class))),
       @ApiResponse(responseCode = "403", description = "Too many requests for synchronous FILEINFO", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FileInfoSyncLimitError.class)))
   })
-  public CreatedBulkRequestModel createRequest(@RequestBody FileInfoBulkRequestModel request, HttpServletRequest httpRequest ,HttpServletResponse response) {
+  public CreatedFileinfoBulkRequestModel createRequest(@RequestBody FileInfoBulkRequestModel request, HttpServletRequest httpRequest ,HttpServletResponse response) {
     return ObjectFixture.getDefaultCreatedRequest(request);
   }
   

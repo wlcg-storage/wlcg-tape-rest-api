@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.wlcg.storage.api.model.BulkRequestModel;
-import org.wlcg.storage.api.model.BulkRequestStatusModel;
-import org.wlcg.storage.api.model.CreatedBulkRequestModel;
 import org.wlcg.storage.api.model.ListResponseModel;
 import org.wlcg.storage.api.model.RequestStatusType;
+import org.wlcg.storage.api.model.unpin.CreatedUnpinBulkRequestModel;
+import org.wlcg.storage.api.model.unpin.UnpinBulkRequestModel;
+import org.wlcg.storage.api.model.unpin.UnpinBulkRequestStatusModel;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,20 +34,23 @@ public class UnpinController extends BaseBulkRequestController {
   
   private static class ObjectFixture {
     
-    public static CreatedBulkRequestModel getDefaultCreatedRequestModel(BulkRequestModel request) {
-      CreatedBulkRequestModel ret = new CreatedBulkRequestModel("93be38df-435c-4322-801d-b95e77ac5bbc", request);
-      ret.setAccessURL("https://api/v1/unpin/" + ret.getId());
+    private static String UNPIN_ACCESS_URL = "https://tape-rest-api.cern.ch/api/v1/unpin/";
+    
+    public static CreatedUnpinBulkRequestModel getDefaultCreatedRequestModel(UnpinBulkRequestModel request) {
+      CreatedUnpinBulkRequestModel ret = new CreatedUnpinBulkRequestModel("93be38df-435c-4322-801d-b95e77ac5bbc", request);
+      ret.setAccessURL(UNPIN_ACCESS_URL + ret.getId());
       return ret;
     }
     
-    public static BulkRequestStatusModel getDefaultUnpinRequestStatus() {
-      BulkRequestStatusModel ret = new BulkRequestStatusModel();
+    public static UnpinBulkRequestStatusModel getDefaultUnpinRequestStatus() {
+      UnpinBulkRequestStatusModel ret = new UnpinBulkRequestStatusModel();
       ret.setId("93be38df-435c-4322-801d-b95e77ac5bbc");
-      BulkRequestModel bulkRequest = new BulkRequestModel();
-      bulkRequest.getPaths().add("/test/file.txt");
-      bulkRequest.getPaths().add("/test/file2.txt");
-      ret.setRequest(bulkRequest);
-      ret.setNumProcessed(2);
+      UnpinBulkRequestModel userRequest = new UnpinBulkRequestModel();
+      userRequest.addPath("/test/file.txt");
+      userRequest.addPath("/test/file2.txt");
+      ret.setRequest(userRequest);
+      ret.addNonUnpinnedFile(userRequest.getPaths().get(1));
+      ret.addUnpinnedFile(userRequest.getPaths().get(0));
       return ret;
     }
   }
@@ -65,18 +68,18 @@ public class UnpinController extends BaseBulkRequestController {
   @ResponseStatus(code = HttpStatus.CREATED)
   @Operation(summary = "Creates a request")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreatedBulkRequestModel.class)))
+      @ApiResponse(responseCode = "201", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreatedUnpinBulkRequestModel.class)))
   })
-  public CreatedBulkRequestModel createRequest(@RequestBody BulkRequestModel request, HttpServletRequest httpRequest ,HttpServletResponse response) {
+  public CreatedUnpinBulkRequestModel createRequest(@RequestBody UnpinBulkRequestModel request, HttpServletRequest httpRequest ,HttpServletResponse response) {
     return ObjectFixture.getDefaultCreatedRequestModel(request);
   }
   
   @GetMapping(value = "/{id}")
   @Operation(summary = "Returns the status of a request")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BulkRequestStatusModel.class)))
+      @ApiResponse(responseCode = "201", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UnpinBulkRequestStatusModel.class)))
   })
-  public BulkRequestStatusModel getRequestStatus(@PathVariable String id) {
+  public UnpinBulkRequestStatusModel getRequestStatus(@PathVariable String id) {
     return ObjectFixture.getDefaultUnpinRequestStatus();
   }
 

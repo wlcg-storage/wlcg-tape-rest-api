@@ -10,19 +10,21 @@ import org.wlcg.storage.api.model.RequestStatusType;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class StageBulkRequestStatusModel extends BulkRequestStatusModel{
+public class StageBulkRequestStatusModel extends BulkRequestStatusModel {
   
   @ArraySchema(minItems = 0,
       schema = @Schema(description = "The list of targers whose processing resulted in a failure"))
-  List<FileStatusModel> failures;
+  private List<FileStatusModel> failures;
   
   @ArraySchema(minItems = 0,
       schema = @Schema(description = "The paths of the files that succesfully got staged"))
   private List<String> pathsStaged;
+  
+  @Schema(description = "The submitted request")
+  private StageBulkRequestModel request;
 
   public StageBulkRequestStatusModel(){
-    super();
-    super.setRequest(new StageBulkRequestModel());
+    this.request = new StageBulkRequestModel();
     this.pathsStaged = new ArrayList<String>();
   }
   
@@ -37,9 +39,12 @@ public class StageBulkRequestStatusModel extends BulkRequestStatusModel{
     this.status = status;
   }
   
-  @Override
+  public void setRequest(StageBulkRequestModel request) {
+    this.request = request;
+  }
+  
   public StageBulkRequestModel getRequest() {
-    return (StageBulkRequestModel) super.getRequest();
+    return this.request;
   }
   
   public List<FileStatusModel> getFailures() {

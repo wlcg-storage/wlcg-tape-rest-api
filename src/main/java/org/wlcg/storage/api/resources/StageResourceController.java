@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.wlcg.storage.api.error.NotImplementedError;
-import org.wlcg.storage.api.model.CreatedBulkRequestModel;
 import org.wlcg.storage.api.model.FileStatusModel;
 import org.wlcg.storage.api.model.ListResponseModel;
-import org.wlcg.storage.api.model.MetadataModel;
 import org.wlcg.storage.api.model.RequestStatusType;
+import org.wlcg.storage.api.model.stage.CreatedStageBulkRequestModel;
+import org.wlcg.storage.api.model.stage.File;
+import org.wlcg.storage.api.model.stage.Metadata;
 import org.wlcg.storage.api.model.stage.StageBulkRequestModel;
 import org.wlcg.storage.api.model.stage.StageBulkRequestStatusModel;
 
@@ -44,18 +45,21 @@ public class StageResourceController extends BaseBulkRequestController {
       StageBulkRequestStatusModel ret = new StageBulkRequestStatusModel();
       ret.setId("93be38df-435c-4322-801d-b95e77ac5bbc");
       StageBulkRequestModel bulkRequest = new StageBulkRequestModel();
-      bulkRequest.getPaths().add("/test/file.txt");
-      bulkRequest.getPaths().add("/test/file2.txt");
-      bulkRequest.getMetadata().add(new MetadataModel("activity","random_activity"));
+      Metadata metadata = new Metadata("eoscta.cern.ch");
+      metadata.addData("activity", "atlasdaq");
+      File file1 = new File("/test/file.txt");
+      File file2 = new File("/test/file2.txt");
+      file1.getMetadata().add(metadata);
+      file2.getMetadata().add(metadata);
+      bulkRequest.getFiles().add(file1);
+      bulkRequest.getFiles().add(file2);
       ret.setRequest(bulkRequest);
-      ret.setNumTargets(bulkRequest.getPaths().size());
-      ret.setNumProcessed(2);
       List<String> pathsStaged = new ArrayList<String>();
-      pathsStaged.add(bulkRequest.getPaths().get(0));
+      pathsStaged.add(bulkRequest.getFiles().get(0).getPath());
       ret.setPathsStaged(pathsStaged);
       List<FileStatusModel> failures = new ArrayList<FileStatusModel>();
       FileStatusModel failure = new FileStatusModel();
-      failure.setPath(bulkRequest.getPaths().get(1));
+      failure.setPath(bulkRequest.getFiles().get(1).getPath());
       failure.setReason("Tape backend is unreachable");
       failures.add(failure);
       ret.setFailures(failures);
@@ -63,9 +67,9 @@ public class StageResourceController extends BaseBulkRequestController {
       return ret;
     }
     
-    public static CreatedBulkRequestModel getDefaultCreatedBulkRequestModel(StageBulkRequestModel request) {
-      CreatedBulkRequestModel createdRequest = new CreatedBulkRequestModel("93be38df-435c-4322-801d-b95e77ac5bb", request);
-      createdRequest.setAccessURL("https://api/v1/stage/" + createdRequest.getId());
+    public static CreatedStageBulkRequestModel getDefaultCreatedBulkRequestModel(StageBulkRequestModel request) {
+      CreatedStageBulkRequestModel createdRequest = new CreatedStageBulkRequestModel("93be38df-435c-4322-801d-b95e77ac5bb", request);
+      createdRequest.setAccessURL("https://tape-rest-api.cern.ch/api/v1/stage/" + createdRequest.getId());
       return createdRequest;
     }
   }
@@ -100,9 +104,9 @@ public class StageResourceController extends BaseBulkRequestController {
   @ResponseStatus(code = HttpStatus.CREATED)
   @Operation(summary = "Creates a stage bulk request")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreatedBulkRequestModel.class)))
+      @ApiResponse(responseCode = "201", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CreatedStageBulkRequestModel.class)))
   })
-  public CreatedBulkRequestModel createRequest(@RequestBody StageBulkRequestModel request, HttpServletRequest httpRequest ,HttpServletResponse response) {
+  public CreatedStageBulkRequestModel createRequest(@RequestBody StageBulkRequestModel request, HttpServletRequest httpRequest ,HttpServletResponse response) {
     return ObjectFixture.getDefaultCreatedBulkRequestModel(request);
   }
   
